@@ -21,7 +21,7 @@ import java.awt.SystemColor;
 import java.awt.Dimension;
 
 public class LogIn extends JFrame {
-
+//	 Information inf = new Information();
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
@@ -41,6 +41,7 @@ public class LogIn extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					Usernames[0] = "NelsonThegr8";
 					Usernames[1] = "William12";
 					Passwords[0] = "HelloPass13";
@@ -60,7 +61,7 @@ public class LogIn extends JFrame {
 		setBackground(new Color(255, 255, 255));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,7 +70,7 @@ public class LogIn extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(153, 204, 255));
-		panel.setBounds(0, 0, 444, 271);
+		panel.setBounds(0, 0, 500, 365);
 		contentPane.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
@@ -79,56 +80,60 @@ public class LogIn extends JFrame {
 		panel_1.setLayout(null);
 		
 		JLabel UserName = new JLabel("User Name");
-		UserName.setBounds(97, 85, 52, 14);
+		UserName.setBounds(130, 104, 73, 14);
 		panel_1.add(UserName);
 		UserName.setForeground(new Color(0, 0, 0));
 		UserName.setBackground(new Color(0, 0, 0));
 		
 		textField = new JTextField();
-		textField.setBounds(159, 82, 126, 20);
+		textField.setBounds(210, 101, 126, 20);
 		panel_1.add(textField);
 		textField.setColumns(15);
 		
 		JLabel UserPass = new JLabel("Password");
-		UserPass.setBounds(98, 116, 46, 14);
+		UserPass.setBounds(130, 148, 68, 14);
 		panel_1.add(UserPass);
 		UserPass.setBackground(new Color(51, 0, 0));
 		UserPass.setForeground(new Color(0, 0, 0));
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(159, 113, 126, 20);
+		passwordField.setBounds(210, 145, 126, 20);
 		panel_1.add(passwordField);
 		passwordField.setEchoChar('*');
 		passwordField.setColumns(15);
 		
 		JButton LoginBtn = new JButton("Login");
-		LoginBtn.setBounds(247, 177, 57, 23);
+		LoginBtn.setBounds(210, 217, 89, 23);
 		panel_1.add(LoginBtn);
 		LoginBtn.setForeground(new Color(0, 0, 0));
 		LoginBtn.setBackground(new Color(255, 255, 255));
 		
 		JButton btnNewButton = new JButton("Add Usr");
-		btnNewButton.setBounds(120, 177, 71, 23);
+		btnNewButton.setBounds(399, 32, 89, 23);
 		panel_1.add(btnNewButton);
-		btnNewButton.setBackground(new Color(255, 255, 255));
+		btnNewButton.setBackground(new Color(153, 153, 255));
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(153, 204, 255));
-		panel.add(panel_2, BorderLayout.SOUTH);
+		panel_2.setBackground(new Color(240, 240, 240));
+		
 		panel_2.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel.removeAll();
+				panel.add(panel_1, BorderLayout.CENTER);
+				panel.validate();
+				panel.repaint();
 			}
 		});
-		panel_2.add(btnNewButton_1);
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				panel.removeAll();
 				panel.add(addPane, BorderLayout.CENTER);
+				panel.add(btnNewButton_1, BorderLayout.SOUTH);
 				panel.validate();
 				panel.repaint();
 			}
