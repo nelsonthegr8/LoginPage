@@ -13,46 +13,38 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import java.awt.GridLayout;
+import javax.swing.JTextArea;
+import java.awt.Dimension;
 
 public class HomePanel extends JPanel {
-
 	/**
 	 * Create the panel.
 	 */
 	public HomePanel() {
 		setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblNewLabel = new JLabel("Home");
-		add(lblNewLabel, BorderLayout.NORTH);
+		JPanel panel_2 = new JPanel();
+		add(panel_2, BorderLayout.NORTH);
 		
-		JTree tree = new JTree();
-		add(tree, BorderLayout.WEST);
+		JLabel lblNewLabel = new JLabel("Home");
+		panel_2.add(lblNewLabel);
+		
+		JTextArea textArea = new JTextArea();
+//		textArea.setEditable(false);
+		textArea.setText("Hi");
+		add(textArea, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
-		add(panel, BorderLayout.EAST);
-		panel.setLayout(new BorderLayout(0, 0));
-		
-		JButton btnNewButton = new JButton("New button");
-		panel.add(btnNewButton, BorderLayout.NORTH);
-		
-		JButton btnNewButton_1 = new JButton("New button");
-		panel.add(btnNewButton_1, BorderLayout.SOUTH);
+		panel.setPreferredSize(new Dimension(50, 10));
+		add(panel, BorderLayout.WEST);
 		
 		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		panel_1.setPreferredSize(new Dimension(50, 10));
+		add(panel_1, BorderLayout.EAST);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		panel_1.add(btnNewButton_2, BorderLayout.NORTH);
-		
-		JButton btnNewButton_3 = new JButton("New button");
-		panel_1.add(btnNewButton_3, BorderLayout.SOUTH);
-		
-		JButton btnNewButton_4 = new JButton("New button");
-		panel_1.add(btnNewButton_4, BorderLayout.CENTER);
-		
-		JTextPane textPane = new JTextPane();
-		add(textPane, BorderLayout.CENTER);
+		JPanel panel_3 = new JPanel();
+		add(panel_3, BorderLayout.SOUTH);
 
 	}
 

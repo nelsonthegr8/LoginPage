@@ -2,6 +2,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -34,6 +35,9 @@ public class AddUsr extends JPanel {
 	private JTextField textField_1;
 	private BufferedImage[] Images = new BufferedImage[30];
 	private String usrName;
+	private String passName;
+	private String aboutMe;
+	
 
 	/**
 	 * Create the panel.
@@ -48,66 +52,58 @@ public class AddUsr extends JPanel {
 		add(panel_1, BorderLayout.CENTER);
 		
 		JLabel lblNewLabel_1 = new JLabel("User Name");
+		lblNewLabel_1.setBounds(96, 8, 72, 14);
 		
 		textField = new JTextField();
+		textField.setBounds(175, 5, 166, 20);
 		textField.setColumns(20);
 		
 		JLabel lblNewLabel_2 = new JLabel("Password  ");
+		lblNewLabel_2.setBounds(96, 33, 72, 14);
 		
 		textField_1 = new JTextField();
+		textField_1.setBounds(175, 36, 166, 20);
 		textField_1.setColumns(20);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_1.setLayout(null);
 		panel_1.add(lblNewLabel_1);
 		panel_1.add(textField);
 		panel_1.add(lblNewLabel_2);
 		panel_1.add(textField_1);
 		
 		JLabel lblAboutMe = new JLabel("About Me");
+		lblAboutMe.setBounds(201, 67, 62, 14);
 		panel_1.add(lblAboutMe);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setBounds(94, 92, 290, 130);
 		textArea.setMaximumSize(new Dimension(200, 130));
 		textArea.setRows(6);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setPreferredSize(new Dimension(290, 130));
-		textArea.setSize(new Dimension(200, 130));
 		panel_1.add(textArea);
 		
-		JFileChooser fileChooser = new JFileChooser();
-		
-		JButton btnAddPicture = new JButton("Add Picture");
-		btnAddPicture.setPreferredSize(new Dimension(300, 25));
-		btnAddPicture.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				panel_1.removeAll();
-				panel_1.add(fileChooser);
-				panel_1.validate();
-				panel_1.repaint();
-			}
-		});
-		panel_1.add(btnAddPicture);
 		
 		JButton btnNewButton = new JButton("Add Usr");
+		btnNewButton.setBounds(181, 233, 100, 25);
 		btnNewButton.setPreferredSize(new Dimension(100, 25));
 		panel_1.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					usrName = textField.getText();
+					aboutMe = textArea.getText();
+					passName = textField_1.getText();
 				}catch(NullPointerException p) {
 					System.out.println("broke");
 				}
 				if( Information.CheckUsername(usrName)) {
-					System.out.println("true ur in");
-//				try {
-//					
-//				}catch(IOException e) {
-//					
-//				}
+					JOptionPane.showMessageDialog(null, "User name is already in use, please choose another");
+
 			  }else if(Information.CheckUsername(usrName) == false) {
-				  System.out.println("false im in");
+				  Information.setUsernames(usrName);
+				  Information.setPassword(passName);
+				  Information.setAboutusr(aboutMe);
 			  }
 			}
 		});

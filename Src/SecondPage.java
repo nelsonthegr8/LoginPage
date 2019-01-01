@@ -26,26 +26,7 @@ public class SecondPage extends JFrame {
 	LogIn f1 = new LogIn();
 	AddUsr Panel2 = new AddUsr();
 	HomePanel Panel = new HomePanel();
-	
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SecondPage frame = new SecondPage();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
-	/**
-	 * Create the frame.
-	 */
 	public SecondPage(String uname) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -99,18 +80,13 @@ public class SecondPage extends JFrame {
 		btnNewButton_1.setForeground(new Color(255, 255, 255));
 		toolBar.add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Create Usr");
-		btnNewButton_2.setBackground(new Color(51, 204, 255));
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton btnLogout = new JButton("LogOut");
+		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				 panel.removeAll();
-				 panel.add(Panel2);
-				 panel.validate();
-				 panel.repaint();
 			}
 		});
-		toolBar.add(btnNewButton_2);
+		toolBar.add(btnLogout);
 		
 	}
 }

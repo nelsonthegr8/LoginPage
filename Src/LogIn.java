@@ -21,31 +21,28 @@ import java.awt.SystemColor;
 import java.awt.Dimension;
 
 public class LogIn extends JFrame {
-//	 Information inf = new Information();
+//	 variables i will be using throughout my code some i pull statically from the information class
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private String Uname;
 	private String Pass;
-	private static String Usernames[] = new String[30];
-	private static String Passwords[] = new String[30];
+	private static String Usernames[] = Information.getUsernames();
+	private static String Passwords[] = Information.getPasswords();
 	private static LogIn frame = new LogIn();
-	private int count = 1;
 	private int UsrInput;
 	private String PersonalUsr;
 	AddUsr addPane = new AddUsr();
+	private JFrame fr;
 	/**
 	 * Launch the application.
 	 */
+	
+	//This is a try catch used to help me weed out any errors causing the window not to open up
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
-					Usernames[0] = "NelsonThegr8";
-					Usernames[1] = "William12";
-					Passwords[0] = "HelloPass13";
-					Passwords[1] = "Skittles";
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,10 +55,11 @@ public class LogIn extends JFrame {
 	 * Create the frame.
 	 */
 	public LogIn() {
+		//this part is adding all of the items to the Jframe
 		setBackground(new Color(255, 255, 255));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 400);
+		setBounds(100, 100, 500, 392);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(230, 230, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -150,7 +148,7 @@ public class LogIn extends JFrame {
 					if (Arrays.asList(Usernames).contains(Uname) && Pass.equals(Passwords[Arrays.asList(Usernames).indexOf(Uname)])) {
 						UsrInput = Arrays.asList(Usernames).indexOf(Uname);
 						PersonalUsr = Usernames[UsrInput];
-						SecondPage fr = new SecondPage(Uname);
+						fr = new SecondPage(Uname);
 						fr.setVisible(true);
 						frame.setVisible(false);
 					}else if(Arrays.asList(Usernames).contains(Uname) == false) {
@@ -158,42 +156,9 @@ public class LogIn extends JFrame {
 					}else if(Arrays.asList(Usernames).contains(Uname) && Pass.equals(Passwords[Arrays.asList(Usernames).indexOf(Uname)]) == false) {
 						JOptionPane.showMessageDialog(null, "The Password entered is incorrect");
 					}
-				
-				 
 			}
 		});
 		
 	}
-	
-	public void setUserName(String name) {
-		Usernames[count] = name;
-	}
-	
-	public String getUsername(String name) {
-		this.UsrInput = Arrays.asList(Usernames).indexOf(name);
-		return Usernames[UsrInput];
-	}
-	
-	public void setPassword(String pass) {
-		Passwords[count] = pass;
-	}
-	
-	public String getPassword(String password) {
-		
-		return Passwords[Arrays.asList(Passwords).indexOf(password)];
-	}
-	
-	public void setCount() {
-		count++;
-	}
-	
-	public int getCount() {
-		return count;
-	}
-	public void setUsr() {
-		
-	}
-	public String getUsr() {
-		return PersonalUsr;
-	}
+
 }
