@@ -148,6 +148,7 @@ public class LogIn extends JFrame {
 					if (Arrays.asList(Usernames).contains(Uname) && Pass.equals(Passwords[Arrays.asList(Usernames).indexOf(Uname)])) {
 						UsrInput = Arrays.asList(Usernames).indexOf(Uname);
 						PersonalUsr = Usernames[UsrInput];
+						Information.setUsrloginnum(Uname);
 						fr = new SecondPage(Uname);
 						fr.setVisible(true);
 						frame.setVisible(false);

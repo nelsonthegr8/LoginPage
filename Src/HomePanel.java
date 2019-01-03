@@ -32,7 +32,7 @@ public class HomePanel extends JPanel {
 		
 		JTextArea textArea = new JTextArea();
 //		textArea.setEditable(false);
-		textArea.setText("Hi");
+		textArea.setText(Information.getAboutusr());
 		add(textArea, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();

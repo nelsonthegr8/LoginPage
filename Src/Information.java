@@ -8,7 +8,7 @@ public class Information {
 	private static String Passwords[] = {"HelloPass13","Skittles","","","","","","","",""};
 	private static int count = 1;
 	private static boolean userNameEntered;
-	private static String aboutUsr[] = {"","","","","","","","","",""};
+	private static String aboutUsr[] = {" "," "," "," "," "," "," "," "," "," "};
 	private static int UsrloginNum;
 	
 	

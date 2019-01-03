@@ -104,6 +104,7 @@ public class AddUsr extends JPanel {
 				  Information.setUsernames(usrName);
 				  Information.setPassword(passName);
 				  Information.setAboutusr(aboutMe);
+				  
 			  }
 			}
 		});
