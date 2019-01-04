@@ -22,18 +22,20 @@ import java.awt.Dimension;
 
 public class LogIn extends JFrame {
 //	 variables i will be using throughout my code some i pull statically from the information class
+//	Information Info = new Information();
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private String Uname;
 	private String Pass;
-	private static String Usernames[] = Information.getUsernames();
-	private static String Passwords[] = Information.getPasswords();
+//	private String Usernames[] = Information.getUsernames();
+//	private String Passwords[] = Information.getPasswords();
 	private static LogIn frame = new LogIn();
 	private int UsrInput;
 	private String PersonalUsr;
 	AddUsr addPane = new AddUsr();
-	private JFrame fr;
+	static SecondPage SecondP = new SecondPage();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -145,20 +147,25 @@ public class LogIn extends JFrame {
 				}catch(NullPointerException e) {
 				}
 
-					if (Arrays.asList(Usernames).contains(Uname) && Pass.equals(Passwords[Arrays.asList(Usernames).indexOf(Uname)])) {
-						UsrInput = Arrays.asList(Usernames).indexOf(Uname);
-						PersonalUsr = Usernames[UsrInput];
+					if (Arrays.asList(Information.getUsernames()).contains(Uname) && Pass.equals(Information.getPasswords()[Arrays.asList(Information.getUsernames()).indexOf(Uname)])) {
+						UsrInput = Arrays.asList(Information.getUsernames()).indexOf(Uname);
+						PersonalUsr = Information.getUsernames()[UsrInput];
 						Information.setUsrloginnum(Uname);
-						fr = new SecondPage(Uname);
-						fr.setVisible(true);
-						frame.setVisible(false);
-					}else if(Arrays.asList(Usernames).contains(Uname) == false) {
+						SecondP.setVisible(true);
+						textField.setText(" ");
+						frame.dispose();
+						
+					}else if(Arrays.asList(Information.getUsernames()).contains(Uname) == false) {
 						JOptionPane.showMessageDialog(null, " The User Name Entered is not Registered in our system.");
-					}else if(Arrays.asList(Usernames).contains(Uname) && Pass.equals(Passwords[Arrays.asList(Usernames).indexOf(Uname)]) == false) {
+					}else if(Arrays.asList(Information.getUsernames()).contains(Uname) && Pass.equals(Information.getPasswords()[Arrays.asList(Information.getUsernames()).indexOf(Uname)]) == false) {
 						JOptionPane.showMessageDialog(null, "The Password entered is incorrect");
 					}
 			}
 		});
+		
+	}
+	public static void closeWindow() {
+		SecondP.dispose();
 		
 	}
 

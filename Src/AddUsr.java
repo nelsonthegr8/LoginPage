@@ -100,11 +100,14 @@ public class AddUsr extends JPanel {
 				if( Information.CheckUsername(usrName)) {
 					JOptionPane.showMessageDialog(null, "User name is already in use, please choose another");
 
-			  }else if(Information.CheckUsername(usrName) == false) {
+			  }else if(Information.CheckUsername(usrName) == false && usrName != " ") {
 				  Information.setUsernames(usrName);
 				  Information.setPassword(passName);
 				  Information.setAboutusr(aboutMe);
-				  
+				  textField.setText(" ");
+				  textArea.setText(" ");
+				  textField_1.setText(" ");
+				  JOptionPane.showMessageDialog(null, " The usr has been added you can now log in with that information. hit the back button to return to the login page.");
 			  }
 			}
 		});

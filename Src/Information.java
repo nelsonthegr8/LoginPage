@@ -8,9 +8,11 @@ public class Information {
 	private static String Passwords[] = {"HelloPass13","Skittles","","","","","","","",""};
 	private static int count = 1;
 	private static boolean userNameEntered;
-	private static String aboutUsr[] = {" "," "," "," "," "," "," "," "," "," "};
+	private static String aboutUsr[] = {" Hey Nelson, move in step with the Holy Spirit. Hold on to \n these Scriptures today,\n Psalm 118:6 \n \"The Lord is with me; I will not be afraid. What can mere \n mortals do to me? \" What can they Do!!!!??? \n\n Proverbs 16:9 \n \" In their hearts humans plan their course, but the Lord \n establishes their steps.\" ",
+			" Hello bow aoow",
+			" "," "," "," "," "," "," "," "};
 	private static int UsrloginNum;
-	
+
 	
 	public static void setUsernames(String uname) {
 		if(count < 10) {
@@ -58,5 +60,15 @@ public class Information {
 	public static void setUsrloginnum(String uname) {
 		UsrloginNum = Arrays.asList(Usernames).indexOf(uname);
 	}
+	
+	public static int getUsrloginnum() {
+		return UsrloginNum;
+	}
+	
+	public static String getUsername() {
+		return Usernames[UsrloginNum];
+	}
+	
+	
 	
 }

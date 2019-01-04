@@ -31,8 +31,10 @@ public class HomePanel extends JPanel {
 		panel_2.add(lblNewLabel);
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setWrapStyleWord(true);
 //		textArea.setEditable(false);
-		textArea.setText(Information.getAboutusr());
+		textArea.setText("Hello and welcome to your Home.");
 		add(textArea, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();

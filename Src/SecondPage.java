@@ -22,12 +22,15 @@ import java.awt.CardLayout;
 
 public class SecondPage extends JFrame {
 
+//	Information Info = new Information();
 	private JPanel contentPane;
 	LogIn f1 = new LogIn();
 	AddUsr Panel2 = new AddUsr();
 	HomePanel Panel = new HomePanel();
-
-	public SecondPage(String uname) {
+	AboutMe Panel3 = new AboutMe();
+	private String uname = Information.getUsername();;
+	
+	public SecondPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -50,6 +53,7 @@ public class SecondPage extends JFrame {
 		panel_1.add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
+		panel.add(Panel);
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new CardLayout(0, 0));
 		
@@ -62,6 +66,7 @@ public class SecondPage extends JFrame {
 				 panel.add(Panel);
 				 panel.validate();
 				 panel.repaint();
+				 System.out.println(Information.getUsername() + uname + Information.getUsrloginnum());
 				
 			}
 		});
@@ -73,7 +78,10 @@ public class SecondPage extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 		
-					
+				 panel.removeAll();
+				 panel.add(Panel3);
+				 panel.validate();
+				 panel.repaint();
 			}
 		});
 		btnNewButton_1.setBackground(new Color(0, 153, 255));
@@ -83,10 +91,12 @@ public class SecondPage extends JFrame {
 		JButton btnLogout = new JButton("LogOut");
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				f1.setVisible(true);
+				LogIn.closeWindow();
 			}
 		});
 		toolBar.add(btnLogout);
 		
 	}
+	
 }
