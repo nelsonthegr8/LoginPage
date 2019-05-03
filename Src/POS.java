@@ -8,11 +8,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+@SuppressWarnings("serial")
 public class POS extends JPanel {
 	private static JTextField textField;
 	private static JTable table = new JTable(new DefaultTableModel(null, new Object[]{"ItemNum","Item", "Price"}));
@@ -36,12 +35,12 @@ public class POS extends JPanel {
 		add(btnNewButton);
 		
 		JLabel lblItem = new JLabel("Item #");
-		lblItem.setBounds(89, 17, 56, 16);
+		lblItem.setBounds(89, 61, 56, 16);
 		add(lblItem);
 		
 		textField = new JTextField();
 		textField.setHorizontalAlignment(SwingConstants.TRAILING);
-		textField.setBounds(143, 14, 285, 22);
+		textField.setBounds(144, 58, 285, 22);
 		add(textField);
 		textField.setColumns(10);
 		
@@ -65,11 +64,11 @@ public class POS extends JPanel {
 			check = true;
 		}	
 		});
-		btnAdd.setBounds(508, 13, 97, 25);
+		btnAdd.setBounds(505, 57, 97, 25);
 		add(btnAdd);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(26, 46, 521, 437);
+		scrollPane.setBounds(26, 91, 521, 437);
 		add(scrollPane);
 		
 		
@@ -99,6 +98,10 @@ public class POS extends JPanel {
 		JLabel lblTotal_2 = new JLabel("Total");
 		lblTotal_2.setBounds(658, 417, 46, 14);
 		add(lblTotal_2);
+		
+		JLabel lblPos = new JLabel("P.O.S");
+		lblPos.setBounds(264, 18, 46, 14);
+		add(lblPos);
 
 	}
 	

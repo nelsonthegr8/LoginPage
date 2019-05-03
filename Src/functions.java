@@ -7,11 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,8 +21,11 @@ public class functions {
 public static String CurrentusrName = "";
 private static JPanel Login = new LogIn();
 private static JPanel PiS = new POS();
+private static JPanel merch = new Merch();
 private static JPanel panelholder = new panelHolder();
+private static JPanel purch = new PurchHistory();
 private static double amount = 0.0;
+private static boolean manager = false;
 //this function is called when the user tries to log in and it is successful or not
 	public static void loginQuery(String uname, String pass) throws SQLException {
 		// 1. Establish a Connection
@@ -43,11 +43,35 @@ private static double amount = 0.0;
 		}else {
 			JOptionPane.showMessageDialog( null , "Login Successful");
 			CurrentusrName = uname;
+			if(myRs.getString("Manager").trim().equals("Y")) {
+				manager = true;
+			}
+			panelHolder.isManager(manager);
+			manager = false;
 			Main_Window.changePanel(functions.panelholder);
 			LogIn.resetFields();
 			myConn.close();
 		}
 	}
+	
+	//this function is called when the user tries to log in and it is successful or not
+		public static void UserLookUp(String uname) throws SQLException {
+			// 1. Establish a Connection
+			Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
+			// 2. Prepare Statement
+			PreparedStatement myStmt = myConn.prepareStatement("select * from Associates where User_Name = ?");
+			//3. set the parameters
+			myStmt.setString(1, uname);
+			//4. execute sql query
+			ResultSet myRs = myStmt.executeQuery();
+			if(myRs.next() == false) {
+				JOptionPane.showMessageDialog( null , "Username is Incorrect");
+				myConn.close();
+			}else {
+				PurchHistory.setFandL(myRs.getString("First_Name"), myRs.getString("Last_Name"));
+				myConn.close();
+			}
+		}
 	
 //this functions sets the POS Table	
 	public static void refreshTable(String item) throws SQLException {
@@ -68,7 +92,24 @@ private static double amount = 0.0;
 		}
 	}
 	
-	//this functions sets the POS Table	
+	//this functions enters sale into sales table	
+		public static void entersSales(String uname, String date, String time, String total) throws SQLException {
+			// 1. Establish a Connection
+			Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
+			// 2. Prepare Statement
+			PreparedStatement myStmt = myConn.prepareStatement("insert into Sales(Associate,Transaction_Date,Transaction_Time,Total)\r\n" + 
+					"			values(?,?,?,?)");
+			//
+			myStmt.setString(1, uname);
+			myStmt.setString(2, date);
+			myStmt.setString(3, time);
+			myStmt.setString(4, total);
+			//4. execute sql query
+			myStmt.executeQuery();
+			myConn.close();
+		}
+	
+	//this functions gets the amount left in a stock of a product and returns the number from there databse
 		public static int Quantities(String item) throws SQLException {
 			int q = 0;
 			// 1. Establish a Connection
@@ -87,7 +128,7 @@ private static double amount = 0.0;
 			}
 			return q;
 		}
-//this function gives a current total of the purchase
+//this function gives a current total of the purchase to the pos screen
 	public static String totalAmount() {
 		amount = 0.0;
 		DecimalFormat df = new DecimalFormat("###.##");
@@ -108,7 +149,14 @@ private static double amount = 0.0;
 			//this part outputs the info to a receipt
 			PrintWriter outputStream = new PrintWriter(reciept);
 			outputStream.println("\t Receipt\n");
-			outputStream.println("Date: "+formatter.format(date)+"\n");
+			try {
+				UserLookUp(CurrentusrName);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			outputStream.println("Cashier: "+PurchHistory.getFname()+"\t\t"+"Date: "+formatter.format(date)+"\t Time: "+java.time.LocalTime.now().toString()+"\n");
+			PurchHistory.resetFields();
 			JTable table = POS.getTable();
 			for(int i = 0; i < table.getRowCount(); i++) {
 				outputStream.println("Item: "+table.getValueAt(i, 1)+"\t Price: $"+table.getValueAt(i, 2));
@@ -145,15 +193,21 @@ private static double amount = 0.0;
 				}
 			}
 			//calls function that adds to sales table
-			
+			try {
+				entersSales(CurrentusrName, formatter.format(date), java.time.LocalTime.now().toString(), df.format((total * .06) + total));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
 			//this part resets the fields of the pos register
 			POS.resetFields();
+			JOptionPane.showMessageDialog( null , "Purchase Successful");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+	//this function updates the inventory table in the databses quantities by removing or adding to the stock quantity
 	public static void updateInventory(int quant, String item) throws SQLException {
 		// 1. Establish a Connection
 		Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
@@ -165,13 +219,8 @@ private static double amount = 0.0;
 		myStmt.setInt(1, quant);
 		myStmt.setString(2, item);
 		//4. execute sql query
-		ResultSet myRs = myStmt.executeQuery();
-		if(myRs.next() == false) {
-			myConn.close();
-		}else {
-			//POS.setTable(DbUtils.resultSetToTableModel(myRs));
-			myConn.close();
-		}
+		myStmt.executeQuery();
+		myConn.close();
 	}
 	
 	public static void refreshSalesTable() throws SQLException {
@@ -181,26 +230,51 @@ private static double amount = 0.0;
 		PreparedStatement myStmt = myConn.prepareStatement("select * from Sales");
 		//4. execute sql query
 		ResultSet myRs = myStmt.executeQuery();
-		if(myRs.next() == false) {
+		if(myRs.isBeforeFirst()) {
+			PurchHistory.setTable(DbUtils.resultSetToTableModel(myRs));
 			myConn.close();
 		}else {
-			//POS.setTable(DbUtils.resultSetToTableModel(myRs));
+			
 			myConn.close();
 		}
 	}
 	
-	public static void refreshMerchTable(String item) throws SQLException {
+	public static void refreshMerchTable() throws SQLException {
 		// 1. Establish a Connection
 		Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
 		// 2. Prepare Statement
 		PreparedStatement myStmt = myConn.prepareStatement("select * from Merchandise");
 		//4. execute sql query
 		ResultSet myRs = myStmt.executeQuery();
-		if(myRs.next() == false) {
+		if(myRs.isBeforeFirst()) {
+			Merch.setTable(DbUtils.resultSetToTableModel(myRs));
 			myConn.close();
 		}else {
-			//POS.setTable(DbUtils.resultSetToTableModel(myRs));
+			
 			myConn.close();
+		}
+	}
+	
+	public static void AddInventory() {
+		JTable table = Merch.getTable();
+		String[] items = new String[table.getRowCount()];
+		int[] Quantities = new int[table.getRowCount()];
+		
+		for(int i = 0; i < table.getRowCount(); i++) {
+		//this loops through the table and sets all the values to the quantities and items to throw into the sql querie
+			Quantities[i] = Integer.valueOf(table.getValueAt(i, 3).toString());
+			items[i] = table.getValueAt(i, 0).toString();
+		}
+		
+		for(int count = 0; count < items.length; count++) {
+			try {
+				//this calls the functions to update the merchandise database
+				updateInventory(Quantities[count],items[count]);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
 		}
 	}
 	
@@ -214,5 +288,11 @@ private static double amount = 0.0;
 	
 	public static JPanel POS() {
 		return PiS;
+	}
+	public static JPanel Merch() {
+		return merch;
+	}
+	public static JPanel PurchHistory() {
+		return purch;
 	}
 }

@@ -1,16 +1,19 @@
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.JMenuBar;
-import java.awt.BorderLayout;
 import javax.swing.JButton;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class panelHolder extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	private static JButton btnPurchaseHistory = new JButton("Purchase History");
+	private static JButton btnNewButton = new JButton("Inventory");
+	private static JLabel lblNewLabel = new JLabel("Welcome");
 	public panelHolder() {
 		setLayout(null);
 		
@@ -22,22 +25,38 @@ public class panelHolder extends JPanel {
 		});
 		btnPos.setBounds(86, 251, 97, 25);
 		add(btnPos);
-		
-		JButton btnPurchaseHistory = new JButton("Purchase History");
-		btnPurchaseHistory.setBounds(718, 251, 136, 25);
-		add(btnPurchaseHistory);
-		
-		JButton btnNewButton = new JButton("Inventory");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnPurchaseHistory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					functions.refreshSalesTable();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Main_Window.changePanel(functions.PurchHistory());
 			}
 		});
-		btnNewButton.setBounds(512, 251, 97, 25);
-		add(btnNewButton);
 		
-		JButton btnReturn = new JButton("Return");
-		btnReturn.setBounds(303, 251, 97, 25);
-		add(btnReturn);
+		
+		
+		btnPurchaseHistory.setBounds(676, 251, 136, 25);
+		add(btnPurchaseHistory);
+		
+		
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					functions.refreshMerchTable();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Main_Window.changePanel(functions.Merch());
+			}
+		});
+		btnNewButton.setBounds(410, 251, 97, 25);
+		add(btnNewButton);
 		
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.addActionListener(new ActionListener() {
@@ -47,7 +66,23 @@ public class panelHolder extends JPanel {
 		});
 		btnLogOut.setBounds(844, 43, 97, 25);
 		add(btnLogOut);
+		
+		JLabel lblMainMenu = new JLabel("Main Menu");
+		lblMainMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMainMenu.setBounds(379, 48, 153, 14);
+		add(lblMainMenu);
+		
+		
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(335, 105, 239, 14);
+		add(lblNewLabel);
 
+	}
+	
+	public static void isManager(boolean manager) {
+		btnPurchaseHistory.setEnabled(manager);
+		btnNewButton.setEnabled(manager);
+		lblNewLabel.setText("Welcome "+functions.CurrentusrName);
 	}
 
 	

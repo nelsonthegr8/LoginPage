@@ -1,8 +1,5 @@
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,6 +10,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 
+@SuppressWarnings("serial")
 public class LogIn extends JPanel {
 	private static JTextField textField;
 	private static String userName, Password;

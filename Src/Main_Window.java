@@ -13,6 +13,7 @@ public class Main_Window {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@SuppressWarnings("static-access")
 			public void run() {
 				try {
 					Main_Window window = new Main_Window();
