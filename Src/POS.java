@@ -29,6 +29,7 @@ public class POS extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main_Window.changePanel(functions.panelHolder());
+				resetFields();
 			}
 		});
 		setLayout(null);
