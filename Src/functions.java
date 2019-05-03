@@ -84,6 +84,7 @@ private static boolean manager = false;
 		//4. execute sql query
 		ResultSet myRs = myStmt.executeQuery();
 		if(myRs.next() == false) {
+			JOptionPane.showMessageDialog(null, "incorrect item number");
 			myConn.close();
 		}else {
 			
