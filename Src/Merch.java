@@ -3,6 +3,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,7 @@ public class Merch extends JPanel {
 		btnChangeQuantity.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				functions.AddInventory();
+				JOptionPane.showMessageDialog(null, "Items have been Restocked!");
 			}
 		});
 		btnChangeQuantity.setBounds(818, 339, 121, 23);
