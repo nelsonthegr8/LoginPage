@@ -19,6 +19,8 @@ public class POS extends JPanel {
 	private boolean check = true;
 	private static JLabel lblTotal = new JLabel("subtotal");
 	private static JLabel lblTotal_1 = new JLabel("total");
+	private static JLabel label = new JLabel("");
+	private static boolean homeCheck = true;
 	/**
 	 * Create the panel.
 	 */
@@ -29,6 +31,7 @@ public class POS extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main_Window.changePanel(functions.panelHolder());
+				homeCheck = false;
 				resetFields();
 			}
 		});
@@ -103,6 +106,15 @@ public class POS extends JPanel {
 		JLabel lblPos = new JLabel("P.O.S");
 		lblPos.setBounds(264, 18, 46, 14);
 		add(lblPos);
+		
+		JLabel lblTransactionNumber = new JLabel("Transaction Number");
+		lblTransactionNumber.setBounds(613, 189, 129, 14);
+		add(lblTransactionNumber);
+		
+		
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(752, 189, 74, 14);
+		add(label);
 
 	}
 	
@@ -127,5 +139,15 @@ public class POS extends JPanel {
 		lblTotal_1.setText("");
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
+		if(homeCheck) {
+		functions.addTransactionNum();}
+		setTransactiontxt(functions.TransactionNum());
+	}
+	
+	public static void setTransactiontxt(int Trans) {
+		label.setText(""+Trans);
+	}
+	public static void setBool() {
+		homeCheck = true;
 	}
 }
