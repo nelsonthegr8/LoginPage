@@ -1,5 +1,9 @@
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,8 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,8 +30,11 @@ private static JPanel PiS = new POS();
 private static JPanel merch = new Merch();
 private static JPanel panelholder = new panelHolder();
 private static JPanel purch = new PurchHistory();
+private static JPanel Re = new Return();
 private static double amount = 0.0;
 private static boolean manager = false;
+private static int TransactionNum = 0;
+private static String Receipt = "";
 //this function is called when the user tries to log in and it is successful or not
 	public static void loginQuery(String uname, String pass) throws SQLException {
 		// 1. Establish a Connection
@@ -51,8 +60,31 @@ private static boolean manager = false;
 			Main_Window.changePanel(functions.panelholder);
 			LogIn.resetFields();
 			myConn.close();
+			getLastTransactionNumber();
 		}
 	}
+	
+	
+	//this function is called when the user tries to log in and it is successful or not
+			public static void getLastTransactionNumber() throws SQLException {
+				// 1. Establish a Connection
+				Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
+				// 2. Prepare Statement
+				PreparedStatement myStmt = myConn.prepareStatement("SELECT TOP 1 * FROM Sales ORDER BY Transaction_Number DESC");
+				//4. execute sql query
+				ResultSet myRs = myStmt.executeQuery();
+				if(myRs.next() == false) {
+					JOptionPane.showMessageDialog( null , "there has been an error connecting to the server");
+					myConn.close();
+				}else {
+					TransactionNum = myRs.getInt("Transaction_Number") + 1;
+					Receipt = TransactionNum+".txt";
+					myConn.close();
+				}
+			}
+		
+	
+	
 	
 	//this function is called when the user tries to log in and it is successful or not
 		public static void UserLookUp(String uname) throws SQLException {
@@ -94,17 +126,19 @@ private static boolean manager = false;
 	}
 	
 	//this functions enters sale into sales table	
-		public static void entersSales(String uname, String date, String time, String total) throws SQLException {
+		public static void entersSales(String uname, String date, String time, String total, int num, String receipt) throws SQLException {
 			// 1. Establish a Connection
 			Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
 			// 2. Prepare Statement
-			PreparedStatement myStmt = myConn.prepareStatement("insert into Sales(Associate,Transaction_Date,Transaction_Time,Total)\r\n" + 
-					"			values(?,?,?,?)");
+			PreparedStatement myStmt = myConn.prepareStatement("insert into Sales(Associate,Transaction_Date,Transaction_Time,Total,Transaction_Number,Recipt)\r\n" + 
+					"			values(?,?,?,?,?,?)");
 			//
 			myStmt.setString(1, uname);
 			myStmt.setString(2, date);
 			myStmt.setString(3, time);
 			myStmt.setString(4, total);
+			myStmt.setInt(5, num);
+			myStmt.setString(6, receipt);
 			//4. execute sql query
 			myStmt.executeQuery();
 			myConn.close();
@@ -142,13 +176,23 @@ private static boolean manager = false;
 //this function outputs the information to a txt document and to the sales database and updates the quantities left in stock	
 	public static void transactionFinished(double total) {
 		DecimalFormat df = new DecimalFormat("###.##");
-		String reciept = "receipt.txt";
+		String reciept = "Reciepts/"+Receipt;
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		Date date = new Date();
 		HashMap<String, Integer> map = new HashMap<>();
 		try {
+			PrintWriter Remic = new PrintWriter(reciept);
+			JTable table = POS.getTable();
+			for(int i = 0; i < table.getRowCount(); i++) {
+				Remic.println(table.getValueAt(i, 0)+"/"+table.getValueAt(i, 2));
+			}
+			Remic.close();
+		}catch(FileNotFoundException e) {
+			
+		}
+		try {
 			//this part outputs the info to a receipt
-			PrintWriter outputStream = new PrintWriter(reciept);
+			PrintWriter outputStream = new PrintWriter("Receipt.txt");
 			outputStream.println("\t Receipt\n");
 			try {
 				UserLookUp(CurrentusrName);
@@ -156,7 +200,7 @@ private static boolean manager = false;
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			outputStream.println("Cashier: "+PurchHistory.getFname()+"\t\t"+"Date: "+formatter.format(date)+"\t Time: "+java.time.LocalTime.now().toString()+"\n");
+			outputStream.println("Cashier: "+PurchHistory.getFname()+"\t\t"+"Date: "+formatter.format(date)+"\t Time: "+java.time.LocalTime.now().toString()+"\n Transaction Number: "+TransactionNum+"\n");
 			PurchHistory.resetFields();
 			JTable table = POS.getTable();
 			for(int i = 0; i < table.getRowCount(); i++) {
@@ -195,7 +239,7 @@ private static boolean manager = false;
 			}
 			//calls function that adds to sales table
 			try {
-				entersSales(CurrentusrName, formatter.format(date), java.time.LocalTime.now().toString(), df.format((total * .06) + total));
+				entersSales(CurrentusrName, formatter.format(date), java.time.LocalTime.now().toString(), df.format((total * .06) + total),TransactionNum,Receipt);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
@@ -256,6 +300,24 @@ private static boolean manager = false;
 		}
 	}
 	
+	public static void transactionLookUp(int num) throws SQLException {
+		// 1. Establish a Connection
+		Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
+		// 2. Prepare Statement
+		PreparedStatement myStmt = myConn.prepareStatement("select * from Sales where Transaction_Number = ?");
+		//
+		myStmt.setInt(1, num);
+		//4. execute sql query
+		ResultSet myRs = myStmt.executeQuery();
+		if(myRs.next()) {
+			Return.fileExist();
+			myConn.close();
+		}else {
+			Return.fileNonExist();
+			myConn.close();
+		}
+	}
+	
 	public static void AddInventory() {
 		JTable table = Merch.getTable();
 		String[] items = new String[table.getRowCount()];
@@ -279,6 +341,35 @@ private static boolean manager = false;
 		}
 	}
 	
+	public static void returnFunction(String text, String item) {
+		 List<String> list = new ArrayList<String>(); 
+		    List<String> pricelist = new ArrayList<String>();
+		    List<String> itemNum = new ArrayList<String>();
+		    File file = new File(text);
+		    
+		    if(file.exists()){
+		        try { 
+		            list = Files.readAllLines(file.toPath(),Charset.defaultCharset());
+		        } catch (IOException ex) {
+		            ex.printStackTrace();
+		        }
+		      if(list.isEmpty())
+		          return;
+		    }
+		    for(String line : list){
+		        String [] res = line.split("/");
+		        itemNum.add(res[0]);
+		        pricelist.add(res[1]);
+		    }
+		    
+		    if(itemNum.contains(item)) {
+		    	Return.setTable(itemNum.get(itemNum.indexOf(item)), pricelist.get(itemNum.indexOf(item)));
+		    }else {
+				JOptionPane.showMessageDialog(null,"The item number entered is not on the reciept try again");
+		    }
+		    
+	}
+	
 	public static JPanel login() {
 		return Login;
 	}
@@ -295,5 +386,15 @@ private static boolean manager = false;
 	}
 	public static JPanel PurchHistory() {
 		return purch;
+	}
+	public static JPanel Return() {
+		return Re;
+	}
+	public static int TransactionNum() {
+		return TransactionNum;
+	}
+	public static void addTransactionNum() {
+		TransactionNum++;
+		Receipt = TransactionNum+".txt";
 	}
 }
