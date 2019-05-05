@@ -20,6 +20,8 @@ public class panelHolder extends JPanel {
 		JButton btnPos = new JButton("P.O.S");
 		btnPos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				POS.setTransactiontxt(functions.TransactionNum());
+				POS.setBool();
 				Main_Window.changePanel(functions.POS());
 			}
 		});
@@ -39,7 +41,7 @@ public class panelHolder extends JPanel {
 		
 		
 		
-		btnPurchaseHistory.setBounds(676, 251, 136, 25);
+		btnPurchaseHistory.setBounds(699, 251, 136, 25);
 		add(btnPurchaseHistory);
 		
 		
@@ -55,7 +57,7 @@ public class panelHolder extends JPanel {
 				Main_Window.changePanel(functions.Merch());
 			}
 		});
-		btnNewButton.setBounds(410, 251, 97, 25);
+		btnNewButton.setBounds(511, 251, 97, 25);
 		add(btnNewButton);
 		
 		JButton btnLogOut = new JButton("Log Out");
@@ -76,6 +78,15 @@ public class panelHolder extends JPanel {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(335, 105, 239, 14);
 		add(lblNewLabel);
+		
+		JButton btnNewButton_1 = new JButton("Return");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main_Window.changePanel(functions.Return());
+			}
+		});
+		btnNewButton_1.setBounds(293, 252, 89, 23);
+		add(btnNewButton_1);
 
 	}
 	
