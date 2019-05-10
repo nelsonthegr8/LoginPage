@@ -7,14 +7,26 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class POS extends JPanel {
+	
 	private static JTextField textField;
-	private static JTable table = new JTable(new DefaultTableModel(null, new Object[]{"ItemNum","Item", "Price"}));
+	private static boolean manager = false;
+	private static JTable table = new JTable(new DefaultTableModel(null, new Object[]{"ItemNum","Item", "Price"})){
+		@Override
+	    public boolean isCellEditable(int row, int column) {    
+			if(manager && column == 2) {
+	        return true;
+	        }else return false;
+	    };
+
+	};
 	private static String item = "";
 	private boolean check = true;
 	private static JLabel lblTotal = new JLabel("subtotal");
@@ -72,6 +84,12 @@ public class POS extends JPanel {
 		add(btnAdd);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
+		table.getModel().addTableModelListener(new TableModelListener() {
+
+		      public void tableChanged(TableModelEvent e) {
+		    	  setTotalsandSubtotal();
+		      }
+		    });
 		scrollPane.setBounds(26, 91, 521, 437);
 		add(scrollPane);
 		
@@ -115,6 +133,24 @@ public class POS extends JPanel {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(752, 189, 74, 14);
 		add(label);
+		
+		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					item = textField.getText();
+				}catch(NullPointerException f) {
+					check = false;
+				}
+				
+			if(check) {
+				functions.RemoveItem(item,"p");
+			}
+			check = true;
+			}
+		});
+		btnRemove.setBounds(645, 57, 97, 25);
+		add(btnRemove);
 
 	}
 	
@@ -122,6 +158,15 @@ public class POS extends JPanel {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.addRow(new Object[]{item,type, price});
 		textField.setText("");
+		setTotalsandSubtotal();
+	}
+	public static void removeItem(int Row) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.removeRow(Row);
+		textField.setText("");
+		setTotalsandSubtotal();
+	}
+	public static void setTotalsandSubtotal() {
 		lblTotal.setText(functions.totalAmount());
 		double total = Float.valueOf((String) lblTotal.getText().trim());
 		total = total + (total * .06);
@@ -150,4 +195,8 @@ public class POS extends JPanel {
 	public static void setBool() {
 		homeCheck = true;
 	}
+	public static void managerOrNo(boolean yesNo) {
+		manager = yesNo;
+		
+		}
 }

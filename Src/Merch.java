@@ -10,7 +10,15 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class Merch extends JPanel {
-	private static JTable table = new JTable(new DefaultTableModel(null, new Object[]{"ItemNum", "Price","Description","Quantity"}));
+	private static JTable table = new JTable(new DefaultTableModel(null, new Object[]{"ItemNum", "Price","Description","Quantity"})){
+		@Override
+	    public boolean isCellEditable(int row, int column) {    
+			if(column == 3) {
+	        return true;
+	        }else return false;
+	    };
+
+	};
 	public Merch() {
 		setLayout(null);
 		

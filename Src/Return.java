@@ -23,6 +23,7 @@ public class Return extends JPanel {
 	private int transactionNum = 0;
 	private static boolean check = false;
 	private static boolean nCheck = true;
+	public static boolean TransactionFound = false;
 	/**
 	 * Create the panel.
 	 */
@@ -89,6 +90,7 @@ public class Return extends JPanel {
 		JButton btnLookUp = new JButton("Look Up");
 		btnLookUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			if(TransactionFound == false) {	
 				try {
 					transactionNum = Integer.parseInt(textField.getText().trim());
 				}catch(NumberFormatException f) {
@@ -104,7 +106,11 @@ public class Return extends JPanel {
 					e1.printStackTrace();
 				}
 			}
-			nCheck = true;
+				nCheck = true;
+				
+				}else {
+					JOptionPane.showMessageDialog(null,"Please finish the return before looking up another transaction");
+				}
 			}
 		});
 		btnLookUp.setBounds(806, 241, 89, 23);
@@ -122,11 +128,11 @@ public class Return extends JPanel {
 				
 				if(check) {
 					try {
-						item = textField_1.getText();
+						item = textField_1.getText().trim();
 					}catch(NullPointerException r) {
 						JOptionPane.showMessageDialog(null, "Please enter an item number");
 					}
-				functions.returnFunction("Reciepts/"+receipt, item);
+				functions.returnFunction("src/Reciepts/"+receipt, item);
 				textField_1.setText("");
 				}else {
 					JOptionPane.showMessageDialog(null,"Please enter a transaction number first and hit look up");
@@ -145,12 +151,40 @@ public class Return extends JPanel {
 		});
 		btnHome.setBounds(806, 35, 89, 23);
 		add(btnHome);
+		
+		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			if(check) {
+				try {
+					item = textField_1.getText();
+				}catch(NullPointerException f) {
+					
+				}
+				
+			
+				functions.RemoveItem(item,"r");
+			}else {
+				JOptionPane.showMessageDialog(null,"Please enter a transaction number first and hit look up");
+			}
+			
+			}
+		});
+		btnRemove.setBounds(518, 63, 97, 25);
+		add(btnRemove);
+		
+		JLabel lblItem = new JLabel("item #");
+		lblItem.setBounds(58, 67, 56, 16);
+		add(lblItem);
 
 	}
 	
 	public static void setTable(String item,String price) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.addRow(new Object[]{item,price});
+	}
+	public static JTable getTable() {
+		return table;
 	}
 	public static void fileNonExist() {
 		check = false;
@@ -159,10 +193,17 @@ public class Return extends JPanel {
 	public static void fileExist() {
 		check = true;
 		JOptionPane.showMessageDialog(null,"The reciept has been found");
-		receipt = textField.getText().trim()+".txt";
-		textField.setText(" ");
+		receipt = textField.getText().trim();
+		textField.setText("");
+		TransactionFound = true;
+	}
+	public static void removeItem(int Row) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.removeRow(Row);
+		textField_1.setText("");
 	}
 	private void resetFields() {
+		TransactionFound = false;
 		check = false;
 		textField.setText("");
 		textField_1.setText("");

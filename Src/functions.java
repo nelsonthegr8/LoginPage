@@ -35,6 +35,7 @@ private static double amount = 0.0;
 private static boolean manager = false;
 private static int TransactionNum = 0;
 private static String Receipt = "";
+private static String filePath = "src/Reciepts/";
 //this function is called when the user tries to log in and it is successful or not
 	public static void loginQuery(String uname, String pass) throws SQLException {
 		// 1. Establish a Connection
@@ -56,6 +57,7 @@ private static String Receipt = "";
 				manager = true;
 			}
 			panelHolder.isManager(manager);
+			POS.managerOrNo(manager);
 			manager = false;
 			Main_Window.changePanel(functions.panelholder);
 			LogIn.resetFields();
@@ -124,6 +126,36 @@ private static String Receipt = "";
 			myConn.close();
 		}
 	}
+//this function turns finds the item in the table and what row it is and sends it back to pos to be removed
+	public static void RemoveItem(String item, String cName) {
+		
+		JTable table = new JTable();
+		if(cName.equals("p")) {
+			table = POS.getTable();
+		}else if(cName.equals("r")){
+			table = Return.getTable();
+		}
+		 List<String> items = new ArrayList<String>();
+		 List<Integer> row = new ArrayList<Integer>();
+		 
+		for(int i = 0; i < table.getRowCount(); i++) {
+			items.add(table.getValueAt(i, 0).toString());
+			row.add(i);
+		}
+	
+		if(item.equals("")) {
+			JOptionPane.showMessageDialog(null, "Please enter an item number.");
+		}else if(items.contains(item) && cName.equals("p")) {
+			POS.removeItem(row.get(items.indexOf(item)));
+		}else if(items.contains(item) && cName.equals("r")){
+			Return.removeItem(row.get(items.indexOf(item)));
+		}else if(items.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please add items first.");
+		}else {
+			JOptionPane.showMessageDialog(null, "Please choose an item that has been added to the transaction.");
+		}
+	
+	}
 	
 	//this functions enters sale into sales table	
 		public static void entersSales(String uname, String date, String time, String total, int num, String receipt) throws SQLException {
@@ -176,40 +208,23 @@ private static String Receipt = "";
 //this function outputs the information to a txt document and to the sales database and updates the quantities left in stock	
 	public static void transactionFinished(double total) {
 		DecimalFormat df = new DecimalFormat("###.##");
-		String reciept = "Reciepts/"+Receipt;
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		Date date = new Date();
 		HashMap<String, Integer> map = new HashMap<>();
-		try {
-			PrintWriter Remic = new PrintWriter(reciept);
-			JTable table = POS.getTable();
+		JTable table = POS.getTable();
 			for(int i = 0; i < table.getRowCount(); i++) {
-				Remic.println(table.getValueAt(i, 0)+"/"+table.getValueAt(i, 2));
-			}
-			Remic.close();
-		}catch(FileNotFoundException e) {
-			
-		}
-		try {
-			//this part outputs the info to a receipt
-			PrintWriter outputStream = new PrintWriter("Receipt.txt");
-			outputStream.println("\t Receipt\n");
-			try {
-				UserLookUp(CurrentusrName);
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			outputStream.println("Cashier: "+PurchHistory.getFname()+"\t\t"+"Date: "+formatter.format(date)+"\t Time: "+java.time.LocalTime.now().toString()+"\n Transaction Number: "+TransactionNum+"\n");
-			PurchHistory.resetFields();
-			JTable table = POS.getTable();
-			for(int i = 0; i < table.getRowCount(); i++) {
-				outputStream.println("Item: "+table.getValueAt(i, 1)+"\t Price: $"+table.getValueAt(i, 2));
 				if(map.containsKey(table.getValueAt(i, 0))){
 		            map.put((String) table.getValueAt(i, 0), map.get(table.getValueAt(i, 0)) + 1); 
 		        }else {
 		        	map.put((String) table.getValueAt(i, 0), 1);
 		        }
+			}
+			try {
+				outputToText(total);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			//this gets the info from the hash map and stores it into a temporary set so i can pass the variables throgh a query and update the Inventory table inside of the database
 			String[] items = new String[map.keySet().size()];
@@ -224,9 +239,6 @@ private static String Receipt = "";
 				items[j] = n;
 				j++;
 			}
-			outputStream.println("\nSubTotal: "+df.format(total));
-			outputStream.println("Total: "+df.format((total * .06) + total));
-			outputStream.close();
 			//this part updates the sql server inventory by calling a function that queries to the database
 			for(int count = 0; count < items.length; count++) {
 				try {
@@ -247,11 +259,46 @@ private static String Receipt = "";
 			//this part resets the fields of the pos register
 			POS.resetFields();
 			JOptionPane.showMessageDialog( null , "Purchase Successful");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
+	
+	public static void outputToText(double total) throws FileNotFoundException {
+		DecimalFormat df = new DecimalFormat("###.##");
+		String reciept = "src/Reciepts/"+Receipt;
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+		Date date = new Date();
+		String[] print = {"src/Reciepts/Receipt"+Receipt,"Reciept.txt"};
+		try {
+			PrintWriter Remic = new PrintWriter(reciept);
+			JTable table = POS.getTable();
+			for(int i = 0; i < table.getRowCount(); i++) {
+				Remic.println(table.getValueAt(i, 0)+"/"+table.getValueAt(i, 2));
+			}
+			Remic.close();
+		}catch(FileNotFoundException e) {
+			
+		}
+		for(int j = 0; j < print.length; j++) {
+		PrintWriter outputStream = new PrintWriter(print[j]);
+		outputStream.println("\t \t \t Receipt");
+		
+		try {
+			UserLookUp(CurrentusrName);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		outputStream.println("Cashier: "+PurchHistory.getFname()+"\t\t"+"Date: "+formatter.format(date)+"\t Time: "+java.time.LocalTime.now().toString());
+		outputStream.println("Transaction Number: "+TransactionNum);
+		PurchHistory.resetFields();
+		JTable table = POS.getTable();
+		for(int i = 0; i < table.getRowCount(); i++) {
+			outputStream.println("Item: "+table.getValueAt(i, 1)+"\t Price: $"+table.getValueAt(i, 2));
+		}
+		outputStream.println("\nSubTotal: "+df.format(total));
+		outputStream.println("Total: "+df.format((total * .06) + total));
+		outputStream.close();
+	}
+		}
 	//this function updates the inventory table in the databses quantities by removing or adding to the stock quantity
 	public static void updateInventory(int quant, String item) throws SQLException {
 		// 1. Establish a Connection
@@ -272,7 +319,7 @@ private static String Receipt = "";
 		// 1. Establish a Connection
 		Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
 		// 2. Prepare Statement
-		PreparedStatement myStmt = myConn.prepareStatement("select * from Sales");
+		PreparedStatement myStmt = myConn.prepareStatement("select * from Sales ORDER BY Transaction_Number ASC");
 		//4. execute sql query
 		ResultSet myRs = myStmt.executeQuery();
 		if(myRs.isBeforeFirst()) {
@@ -311,6 +358,16 @@ private static String Receipt = "";
 		ResultSet myRs = myStmt.executeQuery();
 		if(myRs.next()) {
 			Return.fileExist();
+			
+			//Runtime rs = Runtime.getRuntime();
+		    ProcessBuilder rs = new ProcessBuilder("notepad",filePath+"Receipt"+num+".txt");
+		    try {
+		      rs.start();
+		    }
+		    catch (IOException e) {
+		      System.out.println(e);
+		    }
+		    
 			myConn.close();
 		}else {
 			Return.fileNonExist();
@@ -345,7 +402,7 @@ private static String Receipt = "";
 		 List<String> list = new ArrayList<String>(); 
 		    List<String> pricelist = new ArrayList<String>();
 		    List<String> itemNum = new ArrayList<String>();
-		    File file = new File(text);
+		    File file = new File(text+".txt");
 		    
 		    if(file.exists()){
 		        try { 
@@ -356,12 +413,15 @@ private static String Receipt = "";
 		      if(list.isEmpty())
 		          return;
 		    }
+		    
 		    for(String line : list){
 		        String [] res = line.split("/");
 		        itemNum.add(res[0]);
+		        
 		        pricelist.add(res[1]);
+		        
 		    }
-		    
+		   
 		    if(itemNum.contains(item)) {
 		    	Return.setTable(itemNum.get(itemNum.indexOf(item)), pricelist.get(itemNum.indexOf(item)));
 		    }else {
