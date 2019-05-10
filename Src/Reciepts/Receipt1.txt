@@ -1,0 +1,9 @@
+	 	 	 Receipt
+Cashier: Test		Date: 05/10/2019	 Time: 15:52:38.921
+Transaction Number: 1
+Item: Red Shirt 	 Price: $5.99      
+Item: Red Pants 	 Price: $12.99     
+Item: Red Pants 	 Price: $12.99     
+
+SubTotal: 31.97
+Total: 33.89

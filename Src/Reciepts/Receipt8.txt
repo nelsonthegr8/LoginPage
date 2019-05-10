@@ -1,0 +1,7 @@
+	 	 	 Receipt
+Cashier: Magda		Date: 05/10/2019	 Time: 16:04:50.930
+Transaction Number: 8
+Item: Red Pants 	 Price: $12.99     
+
+SubTotal: 12.99
+Total: 13.77

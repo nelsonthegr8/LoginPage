@@ -1,0 +1,10 @@
+	 	 	 Receipt
+Cashier: Nelson		Date: 05/10/2019	 Time: 16:01:56.905
+Transaction Number: 2
+Item: Skateboard	 Price: $100.87    
+Item: Gap Jacket	 Price: $59.99     
+Item: Gap Pants 	 Price: $39.99     
+Item: Blue Shirt	 Price: $5.99      
+
+SubTotal: 206.84
+Total: 219.25

@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: William		Date: 05/10/2019	 Time: 16:03:13.561
+Transaction Number: 6
+Item: Skateboard	 Price: $100.87    
+Item: Skates    	 Price: $59.89     
+
+SubTotal: 160.76
+Total: 170.41

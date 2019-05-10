@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: Phil		Date: 05/10/2019	 Time: 16:05:48.311
+Transaction Number: 11
+Item: Gap Pants 	 Price: $39.99     
+Item: Skateboard	 Price: $100.87    
+
+SubTotal: 140.86
+Total: 149.31

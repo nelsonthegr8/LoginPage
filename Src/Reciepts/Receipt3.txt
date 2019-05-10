@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: Nelson		Date: 05/10/2019	 Time: 16:02:11.254
+Transaction Number: 3
+Item: Gap Pants 	 Price: $39.99     
+Item: Gap Jacket	 Price: $59.99     
+
+SubTotal: 99.98
+Total: 105.98
