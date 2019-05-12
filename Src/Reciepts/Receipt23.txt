@@ -1,0 +1,9 @@
+	 	 	 Receipt
+Cashier: Phil		Date: 05/12/2019	 Time: 00:41:53.747
+Transaction Number: 23
+Item: Gap Jacket	 Price: $59.99     
+Item: Gap Pants 	 Price: $39.99     
+Item: Gap Pants 	 Price: $39.99     
+
+SubTotal: 139.97
+Total: 148.37

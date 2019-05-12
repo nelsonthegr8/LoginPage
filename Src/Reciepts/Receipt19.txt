@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: William		Date: 05/12/2019	 Time: 00:40:32.727
+Transaction Number: 19
+Item: Red Shirt 	 Price: $5.99      
+Item: Red Pants 	 Price: $12.99     
+
+SubTotal: 18.98
+Total: 20.12

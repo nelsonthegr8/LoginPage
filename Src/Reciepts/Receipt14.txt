@@ -1,0 +1,7 @@
+	 	 	 Receipt
+Cashier: Nelson		Date: 05/11/2019	 Time: 21:51:49.725
+Transaction Number: 14
+Item: Skates    	 Price: $59.89     
+
+SubTotal: 59.89
+Total: 63.48

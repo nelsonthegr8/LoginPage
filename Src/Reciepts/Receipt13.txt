@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: William		Date: 05/11/2019	 Time: 21:48:37.533
+Transaction Number: 13
+Item: Red Shirt 	 Price: $5.99      
+Item: Gap Jacket	 Price: $59.99     
+
+SubTotal: 65.98
+Total: 69.94

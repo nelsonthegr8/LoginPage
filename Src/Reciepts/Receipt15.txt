@@ -1,0 +1,9 @@
+	 	 	 Receipt
+Cashier: Test		Date: 05/12/2019	 Time: 00:38:18.564
+Transaction Number: 15
+Item: Gap Jacket	 Price: $59.99     
+Item: Gap Pants 	 Price: $39.99     
+Item: Skateboard	 Price: $100.87    
+
+SubTotal: 200.85
+Total: 212.9

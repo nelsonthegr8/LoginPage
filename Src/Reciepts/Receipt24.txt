@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: Phil		Date: 05/12/2019	 Time: 00:41:59.610
+Transaction Number: 24
+Item: Skates    	 Price: $59.89     
+Item: Skates    	 Price: $59.89     
+
+SubTotal: 119.78
+Total: 126.97

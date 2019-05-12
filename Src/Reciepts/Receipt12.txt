@@ -1,0 +1,9 @@
+	 	 	 Receipt
+Cashier: Test		Date: 05/11/2019	 Time: 20:31:02.248
+Transaction Number: 12
+Item: Red Shirt 	 Price: $5.99      
+Item: Gap Jacket	 Price: $59.99     
+Item: Gap Pants 	 Price: $39.99     
+
+SubTotal: 105.97
+Total: 112.33

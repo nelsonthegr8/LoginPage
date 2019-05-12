@@ -1,0 +1,7 @@
+	 	 	 Receipt
+Cashier: Test		Date: 05/12/2019	 Time: 00:38:26.198
+Transaction Number: 16
+Item: Skateboard	 Price: $100.87    
+
+SubTotal: 100.87
+Total: 106.92

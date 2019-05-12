@@ -1,0 +1,7 @@
+	 	 	 Receipt
+Cashier: Magda		Date: 05/12/2019	 Time: 00:41:03.746
+Transaction Number: 22
+Item: Skates    	 Price: $59.89     
+
+SubTotal: 59.89
+Total: 63.48

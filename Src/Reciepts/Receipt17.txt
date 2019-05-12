@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: Nelson		Date: 05/12/2019	 Time: 00:39:14.506
+Transaction Number: 17
+Item: Red Shirt 	 Price: $30.99    
+Item: Red Pants 	 Price: $12.99     
+
+SubTotal: 43.98
+Total: 46.62

@@ -1,0 +1,8 @@
+	 	 	 Receipt
+Cashier: Magda		Date: 05/12/2019	 Time: 00:40:57.890
+Transaction Number: 21
+Item: Gap Jacket	 Price: $59.99     
+Item: Gap Pants 	 Price: $39.99     
+
+SubTotal: 99.98
+Total: 105.98
