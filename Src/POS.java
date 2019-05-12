@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
@@ -160,6 +161,11 @@ public class POS extends JPanel {
 		textField.setText("");
 		setTotalsandSubtotal();
 	}
+	public static void setPrice(int row,int column, String data) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setValueAt(data, row, column);
+		setTotalsandSubtotal();
+	}
 	public static void removeItem(int Row) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.removeRow(Row);
@@ -167,7 +173,12 @@ public class POS extends JPanel {
 		setTotalsandSubtotal();
 	}
 	public static void setTotalsandSubtotal() {
+		try {
 		lblTotal.setText(functions.totalAmount());
+		}catch(NumberFormatException e) {JOptionPane.showMessageDialog(null, "Please enter a number in the price area! Not letters!");
+		functions.resetPrices();
+		}
+		
 		double total = Float.valueOf((String) lblTotal.getText().trim());
 		total = total + (total * .06);
 		DecimalFormat df = new DecimalFormat("###.##");

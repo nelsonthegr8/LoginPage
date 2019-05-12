@@ -14,10 +14,12 @@ public class panelHolder extends JPanel {
 	private static JButton btnPurchaseHistory = new JButton("Purchase History");
 	private static JButton btnNewButton = new JButton("Inventory");
 	private static JLabel lblNewLabel = new JLabel("Welcome");
+	private static JButton btnNewButton_1 = new JButton("Return");
+	private static JButton btnPos = new JButton("P.O.S");
 	public panelHolder() {
 		setLayout(null);
 		
-		JButton btnPos = new JButton("P.O.S");
+		
 		btnPos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				POS.setTransactiontxt(functions.TransactionNum());
@@ -79,7 +81,7 @@ public class panelHolder extends JPanel {
 		lblNewLabel.setBounds(335, 105, 239, 14);
 		add(lblNewLabel);
 		
-		JButton btnNewButton_1 = new JButton("Return");
+		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main_Window.changePanel(functions.Return());
@@ -91,8 +93,15 @@ public class panelHolder extends JPanel {
 	}
 	
 	public static void isManager(boolean manager) {
-		btnPurchaseHistory.setEnabled(manager);
-		btnNewButton.setEnabled(manager);
+		btnPurchaseHistory.setVisible(manager);
+		btnNewButton.setVisible(manager);
+		if(manager == false) {
+			btnPos.setBounds(228, 251, 97, 25);
+			btnNewButton_1.setBounds(569, 252, 89, 23);
+		}else {
+			btnPos.setBounds(86, 251, 97, 25);
+			btnNewButton_1.setBounds(293, 252, 89, 23);
+		}
 		lblNewLabel.setText("Welcome "+functions.CurrentusrName);
 	}
 

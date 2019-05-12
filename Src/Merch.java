@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -36,6 +37,12 @@ public class Merch extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				functions.AddInventory();
 				JOptionPane.showMessageDialog(null, "Items have been Restocked!");
+				try {
+					functions.refreshMerchTable();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnChangeQuantity.setBounds(818, 339, 121, 23);

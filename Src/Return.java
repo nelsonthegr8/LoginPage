@@ -24,6 +24,7 @@ public class Return extends JPanel {
 	private static boolean check = false;
 	private static boolean nCheck = true;
 	public static boolean TransactionFound = false;
+	private static boolean fileOpen = false;
 	/**
 	 * Create the panel.
 	 */
@@ -63,6 +64,7 @@ public class Return extends JPanel {
 							//e.printStackTrace();
 						}
 					}
+					functions.closeNotepad();
 					resetFields();
 					JOptionPane.showMessageDialog(null,"Items have been returned and inventory has been updated");
 					}else {
@@ -110,6 +112,7 @@ public class Return extends JPanel {
 				
 				}else {
 					JOptionPane.showMessageDialog(null,"Please finish the return before looking up another transaction");
+					textField.setText("");
 				}
 			}
 		});
@@ -136,6 +139,7 @@ public class Return extends JPanel {
 				textField_1.setText("");
 				}else {
 					JOptionPane.showMessageDialog(null,"Please enter a transaction number first and hit look up");
+					textField_1.setText("");
 				}
 			}
 		});
@@ -145,6 +149,7 @@ public class Return extends JPanel {
 		JButton btnHome = new JButton("Home");
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(fileOpen) {functions.closeNotepad();}
 				resetFields();
 				Main_Window.changePanel(functions.panelHolder());
 			}
@@ -161,11 +166,10 @@ public class Return extends JPanel {
 				}catch(NullPointerException f) {
 					
 				}
-				
-			
 				functions.RemoveItem(item,"r");
 			}else {
 				JOptionPane.showMessageDialog(null,"Please enter a transaction number first and hit look up");
+				textField_1.setText("");
 			}
 			
 			}
@@ -196,6 +200,7 @@ public class Return extends JPanel {
 		receipt = textField.getText().trim();
 		textField.setText("");
 		TransactionFound = true;
+		fileOpen = true;
 	}
 	public static void removeItem(int Row) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();

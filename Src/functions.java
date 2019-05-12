@@ -36,6 +36,7 @@ private static boolean manager = false;
 private static int TransactionNum = 0;
 private static String Receipt = "";
 private static String filePath = "src/Reciepts/";
+public static Process rs;
 //this function is called when the user tries to log in and it is successful or not
 	public static void loginQuery(String uname, String pass) throws SQLException {
 		// 1. Establish a Connection
@@ -102,7 +103,7 @@ private static String filePath = "src/Reciepts/";
 				JOptionPane.showMessageDialog( null , "Username is Incorrect");
 				myConn.close();
 			}else {
-				PurchHistory.setFandL(myRs.getString("First_Name"), myRs.getString("Last_Name"));
+				PurchHistory.setFandL(myRs.getString("First_Name"), myRs.getString("Last_Name"), myRs.getString("Phone_Number"), myRs.getString("Home_Address"));
 				myConn.close();
 			}
 		}
@@ -201,9 +202,50 @@ private static String filePath = "src/Reciepts/";
 		DecimalFormat df = new DecimalFormat("###.##");
 		JTable table = POS.getTable();
 		for(int i = 0; i < table.getRowCount(); i++) {
-			amount += Float.valueOf((String) table.getValueAt(i, 2));
+				amount += Float.valueOf(table.getValueAt(i, 2).toString().trim());
+				
 		}
 		return " "+df.format(amount);
+	}
+	
+//this function will take the pos table in and revert the price back to the default price of the item due to the user
+//trying to input a trash price which would be a string
+	public static void resetPrices() {
+		JTable table = POS.getTable();
+		@SuppressWarnings("unused")
+		double amounts = 0.0;
+		for(int i = 0; i < table.getRowCount(); i++) {
+			try {
+			amounts += Float.valueOf(table.getValueAt(i, 2).toString().trim());}catch(NumberFormatException e) {
+				try {
+					POS.setPrice(i, 2, getActualPrice(table.getValueAt(i, 0).toString()));
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	//this function is called when the user tries to log in and it is successful or not
+	public static String getActualPrice(String item) throws SQLException {
+		String price = "";
+		// 1. Establish a Connection
+		Connection myConn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=Users;integratedSecurity=true");
+		// 2. Prepare Statement
+		PreparedStatement myStmt = myConn.prepareStatement("SELECT Price FROM Merchandise WHERE Item_Number = ?");
+		//
+		myStmt.setString(1, item);
+		//4. execute sql query
+		ResultSet myRs = myStmt.executeQuery();
+		if(myRs.next() == false) {
+			JOptionPane.showMessageDialog( null , "there has been an error connecting to the server");
+			myConn.close();
+		}else {
+			price = myRs.getString("Price");
+			myConn.close();
+		}
+		return price;
 	}
 //this function outputs the information to a txt document and to the sales database and updates the quantities left in stock	
 	public static void transactionFinished(double total) {
@@ -358,23 +400,28 @@ private static String filePath = "src/Reciepts/";
 		ResultSet myRs = myStmt.executeQuery();
 		if(myRs.next()) {
 			Return.fileExist();
-			
-			//Runtime rs = Runtime.getRuntime();
-		    ProcessBuilder rs = new ProcessBuilder("notepad",filePath+"Receipt"+num+".txt");
-		    try {
-		      rs.start();
-		    }
-		    catch (IOException e) {
-		      System.out.println(e);
-		    }
-		    
+			String fileName = filePath+"Receipt"+num+".txt";
+		   openFileinNotepad(fileName);
 			myConn.close();
 		}else {
 			Return.fileNonExist();
 			myConn.close();
 		}
 	}
-	
+	//this function opens a file in the notepad windows app
+	public static void openFileinNotepad(String file) {
+		    try {
+		    	rs = Runtime.getRuntime().exec("notepad "+file);
+		    }
+		    catch (IOException e) {
+		      System.out.println(e);
+		    }
+		    
+	}
+	//this function closes a file in the notepad windows app
+	public static void closeNotepad() {
+		rs.destroy();
+	}
 	public static void AddInventory() {
 		JTable table = Merch.getTable();
 		String[] items = new String[table.getRowCount()];
