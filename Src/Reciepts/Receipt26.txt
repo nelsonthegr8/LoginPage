@@ -1,0 +1,10 @@
+	 	 	 Receipt
+Cashier: William		Date: 05/13/2019	 Time: 13:28:57.500
+Transaction Number: 26
+Item: Red Shirt 	 Price: $5.99      
+Item: Gap Jacket	 Price: $59.99     
+Item: Skateboard	 Price: $100.87    
+Item: Skates    	 Price: $59.89     
+
+SubTotal: 226.74
+Total: 240.34

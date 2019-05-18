@@ -1,0 +1,9 @@
+	 	 	 Receipt
+Cashier: Sterling		Date: 05/16/2019	 Time: 22:15:59.148
+Transaction Number: 30
+Item: Red Shirt 	 Price: $5.99      
+Item: Red Pants 	 Price: $12.99     
+Item: Red Shirt 	 Price: $5.99      
+
+SubTotal: 24.97
+Total: 26.47

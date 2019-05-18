@@ -1,0 +1,7 @@
+	 	 	 Receipt
+Cashier: Nelson		Date: 05/13/2019	 Time: 13:30:50.501
+Transaction Number: 27
+Item: Skateboard	 Price: $100.87    
+
+SubTotal: 100.87
+Total: 106.92
