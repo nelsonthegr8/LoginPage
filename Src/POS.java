@@ -13,9 +13,13 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Cursor;
 
 @SuppressWarnings("serial")
 public class POS extends JPanel {
+	
 	
 	private static JTextField textField;
 	private static boolean manager = false;
@@ -23,23 +27,29 @@ public class POS extends JPanel {
 		@Override
 	    public boolean isCellEditable(int row, int column) {    
 			if(manager && column == 2) {
+				scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	        return true;
-	        }else return false;
+	        }else 
+	        {scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)); 
+	        return false;}
 	    };
 
 	};
 	private static String item = "";
 	private boolean check = true;
-	private static JLabel lblTotal = new JLabel("subtotal");
-	private static JLabel lblTotal_1 = new JLabel("total");
+	private static JLabel lblTotal = new JLabel("0.00");
+	private static JLabel lblTotal_1 = new JLabel("0.00");
 	private static JLabel label = new JLabel("");
 	private static boolean homeCheck = true;
+	private static JScrollPane scrollPane = new JScrollPane(table);
 	/**
 	 * Create the panel.
 	 */
 	public POS() {
+		setBackground(Color.DARK_GRAY);
 		
 		JButton btnNewButton = new JButton("Home");
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton.setBounds(893, 13, 82, 25);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -52,6 +62,8 @@ public class POS extends JPanel {
 		add(btnNewButton);
 		
 		JLabel lblItem = new JLabel("Item #");
+		lblItem.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 15));
+		lblItem.setForeground(new Color(255, 255, 255));
 		lblItem.setBounds(89, 61, 56, 16);
 		add(lblItem);
 		
@@ -62,6 +74,8 @@ public class POS extends JPanel {
 		textField.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdd.setBackground(new Color(51, 153, 51));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -84,22 +98,27 @@ public class POS extends JPanel {
 		btnAdd.setBounds(505, 57, 97, 25);
 		add(btnAdd);
 		
-		JScrollPane scrollPane = new JScrollPane(table);
+		
 		table.getModel().addTableModelListener(new TableModelListener() {
 
 		      public void tableChanged(TableModelEvent e) {
 		    	  setTotalsandSubtotal();
 		      }
 		    });
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		scrollPane.setBounds(26, 91, 521, 437);
 		add(scrollPane);
+		lblTotal.setForeground(new Color(255, 255, 255));
+		lblTotal.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		
 		lblTotal.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTotal.setBounds(744, 391, 135, 16);
+		lblTotal.setBounds(744, 396, 135, 16);
 		add(lblTotal);
 		
 		JButton btnFinished = new JButton("Finished");
+		btnFinished.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnFinished.setBackground(new Color(0, 51, 153));
 		btnFinished.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				double amount = Float.valueOf((String) lblTotal.getText().trim());
@@ -110,32 +129,47 @@ public class POS extends JPanel {
 		add(btnFinished);
 		
 		JLabel lblSubtotal = new JLabel("Subtotal");
-		lblSubtotal.setBounds(658, 392, 53, 14);
+		lblSubtotal.setForeground(new Color(255, 255, 255));
+		lblSubtotal.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		lblSubtotal.setBounds(658, 392, 74, 25);
 		add(lblSubtotal);
+		lblTotal_1.setForeground(new Color(255, 255, 255));
+		lblTotal_1.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		lblTotal_1.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		
-		lblTotal_1.setBounds(744, 417, 46, 14);
+		lblTotal_1.setBounds(744, 417, 46, 25);
 		add(lblTotal_1);
 		
 		JLabel lblTotal_2 = new JLabel("Total");
-		lblTotal_2.setBounds(658, 417, 46, 14);
+		lblTotal_2.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		lblTotal_2.setForeground(new Color(255, 255, 255));
+		lblTotal_2.setBounds(658, 417, 46, 25);
 		add(lblTotal_2);
 		
 		JLabel lblPos = new JLabel("P.O.S");
-		lblPos.setBounds(264, 18, 46, 14);
+		lblPos.setForeground(new Color(255, 255, 255));
+		lblPos.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+		lblPos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPos.setBounds(264, 18, 56, 27);
 		add(lblPos);
 		
 		JLabel lblTransactionNumber = new JLabel("Transaction Number");
-		lblTransactionNumber.setBounds(613, 189, 129, 14);
+		lblTransactionNumber.setForeground(new Color(255, 255, 255));
+		lblTransactionNumber.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 15));
+		lblTransactionNumber.setBounds(613, 189, 177, 25);
 		add(lblTransactionNumber);
+		label.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		label.setForeground(new Color(255, 255, 255));
 		
 		
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(752, 189, 74, 14);
+		label.setBounds(767, 189, 74, 25);
 		add(label);
 		
 		JButton btnRemove = new JButton("Remove");
+		btnRemove.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRemove.setBackground(new Color(204, 51, 0));
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {

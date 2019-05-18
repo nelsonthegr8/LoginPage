@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.Font;
+import javax.swing.SwingConstants;
+import java.awt.Color;
+import java.awt.Cursor;
 
 @SuppressWarnings("serial")
 public class LogIn extends JPanel {
@@ -20,23 +23,35 @@ public class LogIn extends JPanel {
 	 * Create the panel.
 	 */
 	public LogIn() {
+		setBackground(Color.DARK_GRAY);
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("UserName");
-		lblNewLabel.setBounds(270, 136, 125, 100);
+		lblNewLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(418, 84, 125, 100);
 		add(lblNewLabel);
 		
 		textField = new JTextField();
-		textField.setBounds(524, 162, 225, 48);
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setBounds(369, 175, 225, 48);
 		add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
-		lblNewLabel_1.setBounds(270, 222, 125, 100);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(418, 218, 125, 100);
 		add(lblNewLabel_1);
 		
 		JButton btnNewButton = new JButton("Login");
-		btnNewButton.setBounds(341, 425, 298, 76);
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.setFont(new Font("Segoe UI Symbol", Font.BOLD, 17));
+		btnNewButton.setForeground(new Color(0, 0, 0));
+		btnNewButton.setBackground(new Color(51, 153, 51));
+		btnNewButton.setBounds(330, 426, 298, 76);
 		btnNewButton.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
@@ -57,13 +72,16 @@ public class LogIn extends JPanel {
 		});
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(524, 248, 225, 48);
+		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+		passwordField.setBounds(369, 308, 225, 48);
 		add(passwordField);
 		add(btnNewButton);
 		
 		JLabel lblPos = new JLabel("P.O.S");
-		lblPos.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPos.setBounds(450, 13, 108, 61);
+		lblPos.setForeground(Color.WHITE);
+		lblPos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPos.setFont(new Font("Serif", Font.BOLD, 26));
+		lblPos.setBounds(423, 13, 108, 61);
 		add(lblPos);
 
 	}
@@ -73,4 +91,5 @@ public class LogIn extends JPanel {
 		userName = Password = "";
 		
 	}
+	
 }

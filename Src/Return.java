@@ -2,6 +2,8 @@
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -9,9 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Cursor;
 
 @SuppressWarnings("serial")
 public class Return extends JPanel {
@@ -25,13 +33,18 @@ public class Return extends JPanel {
 	private static boolean nCheck = true;
 	public static boolean TransactionFound = false;
 	private static boolean fileOpen = false;
+	private BufferedImage Logopic;
 	/**
 	 * Create the panel.
 	 */
 	public Return() {
+		setBackground(Color.DARK_GRAY);
 		setLayout(null);
 		
 		JButton btnReturn = new JButton("Return");
+		btnReturn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnReturn.setForeground(new Color(255, 255, 255));
+		btnReturn.setBackground(new Color(0, 51, 153));
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(check) {
@@ -85,11 +98,23 @@ public class Return extends JPanel {
 		textField.setColumns(10);
 		
 		JLabel lblTransactionNumber = new JLabel("Transaction Number");
+		lblTransactionNumber.setForeground(Color.WHITE);
+		lblTransactionNumber.setFont(new Font("Segoe UI Symbol", Font.BOLD, 15));
 		lblTransactionNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTransactionNumber.setBounds(596, 201, 139, 14);
+		lblTransactionNumber.setBounds(596, 201, 188, 23);
 		add(lblTransactionNumber);
 		
-		JButton btnLookUp = new JButton("Look Up");
+		try {
+			Logopic = ImageIO.read(new File("src/pictures/magnifying.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JButton btnLookUp = new JButton(new ImageIcon(Logopic));
+		btnLookUp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnLookUp.setForeground(new Color(255, 255, 255));
+		btnLookUp.setBackground(new Color(255, 255, 255));
 		btnLookUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			if(TransactionFound == false) {	
@@ -116,7 +141,7 @@ public class Return extends JPanel {
 				}
 			}
 		});
-		btnLookUp.setBounds(806, 241, 89, 23);
+		btnLookUp.setBounds(806, 241, 89, 30);
 		add(btnLookUp);
 		
 		
@@ -126,6 +151,9 @@ public class Return extends JPanel {
 		textField_1.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdd.setForeground(new Color(255, 255, 255));
+		btnAdd.setBackground(new Color(51, 153, 51));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -147,6 +175,7 @@ public class Return extends JPanel {
 		add(btnAdd);
 		
 		JButton btnHome = new JButton("Home");
+		btnHome.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(fileOpen) {functions.closeNotepad();}
@@ -158,6 +187,9 @@ public class Return extends JPanel {
 		add(btnHome);
 		
 		JButton btnRemove = new JButton("Remove");
+		btnRemove.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRemove.setForeground(new Color(255, 255, 255));
+		btnRemove.setBackground(new Color(204, 51, 0));
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			if(check) {
@@ -178,8 +210,17 @@ public class Return extends JPanel {
 		add(btnRemove);
 		
 		JLabel lblItem = new JLabel("item #");
+		lblItem.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 15));
+		lblItem.setForeground(Color.WHITE);
 		lblItem.setBounds(58, 67, 56, 16);
 		add(lblItem);
+		
+		JLabel lblReturn = new JLabel("Return");
+		lblReturn.setHorizontalAlignment(SwingConstants.CENTER);
+		lblReturn.setForeground(Color.WHITE);
+		lblReturn.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+		lblReturn.setBounds(441, 13, 81, 38);
+		add(lblReturn);
 
 	}
 	

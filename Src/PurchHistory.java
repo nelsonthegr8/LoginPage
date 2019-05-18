@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Cursor;
 
 
 @SuppressWarnings("serial")
@@ -35,16 +38,20 @@ public class PurchHistory extends JPanel {
 	 * Create the panel.
 	 */
 	public PurchHistory() {
+		setBackground(Color.DARK_GRAY);
 		setLayout(null);
 		
 		
 		
 		
 		JLabel lblSalesHistory = new JLabel("Sales History");
-		lblSalesHistory.setBounds(352, 42, 127, 14);
+		lblSalesHistory.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 20));
+		lblSalesHistory.setForeground(Color.WHITE);
+		lblSalesHistory.setBounds(352, 42, 127, 27);
 		add(lblSalesHistory);
 		
 		JButton btnNewButton = new JButton("Home");
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main_Window.changePanel(functions.panelHolder());
@@ -56,10 +63,14 @@ public class PurchHistory extends JPanel {
 		add(btnNewButton);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
+		lblFirstName.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+		lblFirstName.setForeground(Color.WHITE);
 		lblFirstName.setBounds(692, 186, 94, 14);
 		add(lblFirstName);
 		
 		JLabel lblLastName = new JLabel("Last Name:");
+		lblLastName.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+		lblLastName.setForeground(Color.WHITE);
 		lblLastName.setBounds(692, 214, 94, 14);
 		add(lblLastName);
 		
@@ -74,6 +85,7 @@ public class PurchHistory extends JPanel {
 		textField_2.setBounds(826, 211, 120, 20);
 		add(textField_2);
 		textField_2.setColumns(10);
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -102,11 +114,14 @@ public class PurchHistory extends JPanel {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		scrollPane.setBounds(128, 112, 511, 386);
 		add(scrollPane);
 		
 		JLabel lblPhone = new JLabel("Phone:");
+		lblPhone.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+		lblPhone.setForeground(Color.WHITE);
 		lblPhone.setBounds(692, 247, 56, 16);
 		add(lblPhone);
 		
@@ -117,7 +132,9 @@ public class PurchHistory extends JPanel {
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Address:");
-		lblNewLabel.setBounds(692, 282, 56, 16);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(692, 282, 79, 16);
 		add(lblNewLabel);
 		
 		textField_3 = new JTextField();
